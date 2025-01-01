@@ -1,6 +1,8 @@
 #include <iostream>
 #include "tinyxml2.h"
 #include <string>
+#include <thread>
+void SetNewVolume(tinyxml2::XMLElement* rootElement, int volumeLevel);
 
 void modifyXMLFile(const char* filename) {
     tinyxml2::XMLDocument doc;
@@ -30,18 +32,9 @@ void modifyXMLFile(const char* filename) {
         fullscreen->SetText(false);
         std::cout << "Fullscreen updated to false" << std::endl;
     }
-
-    tinyxml2::XMLElement* audio = config->FirstChildElement("Audio");
-    if (audio) {
-        tinyxml2::XMLElement* volume = audio->FirstChildElement("Volume");
-        if (volume) {
-            volume->SetText(100);
-        }
-        tinyxml2::XMLElement* sound = doc.NewElement("Sound");
-        sound->SetText("enabled");
-        config->InsertEndChild(sound);
-        std::cout << "Added new <Sound> element" << std::endl;
-    }
+    
+    std::thread t([config](){SetNewVolume(config, 100);});
+    t.join();
 
     if (doc.SaveFile(filename) != tinyxml2::XML_SUCCESS) {
         std::cerr << "Failed to save the modified XML file!" << std::endl;
@@ -74,6 +67,18 @@ void readXMLFile(const char* filename)
         }
     }
 }
+
+void SetNewVolume(tinyxml2::XMLElement* rootElement, const int volumeLevel)
+{
+    tinyxml2::XMLElement* audio = rootElement->FirstChildElement("Audio");
+    if (audio) {
+        tinyxml2::XMLElement* volume = audio->FirstChildElement("Volume");
+        if (volume) {
+            volume->SetText(volumeLevel);
+        }
+    }
+}
+
 
 int main() {
     readXMLFile("config.xml");
