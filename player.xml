@@ -1,0 +1,9 @@
+<Player>
+    <Name>Hero</Name>
+    <Level>5</Level>
+    <Health>100</Health>
+    <Inventory>
+        <Item id="101" quantity="3" />
+        <Item id="202" quantity="1" />
+    </Inventory>
+</Player>

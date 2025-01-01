@@ -1,0 +1,12 @@
+<Config>
+    <Graphics>
+        <Resolution width="2560" height="1440"/>
+        <Fullscreen>false</Fullscreen>
+    </Graphics>
+    <Audio>
+        <Volume>100</Volume>
+    </Audio>
+    <Sound>enabled</Sound>
+    <Sound>enabled</Sound>
+    <Sound>enabled</Sound>
+</Config>
